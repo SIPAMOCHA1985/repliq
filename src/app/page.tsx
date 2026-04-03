@@ -218,6 +218,22 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* PageForge Upsell */}
+      <section className="max-w-6xl mx-auto px-6 py-20">
+        <div className="bg-gradient-to-r from-[#1A1A2E] to-[#0A0A0F] border border-white/10 rounded-3xl p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div>
+            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-white/50 text-sm font-medium mb-4">
+              Add-on service
+            </div>
+            <h2 className="text-3xl font-black mb-3">No website yet?<br /><span className="text-[#00F5A0]">We'll build one in 60 seconds.</span></h2>
+            <p className="text-[#F0F0F0]/50 max-w-md">Our AI generates a complete, professional landing page for your business — instantly. No designer, no developer, no waiting.</p>
+          </div>
+          <a href={process.env.NEXT_PUBLIC_PAGEFORGE_URL || '#'} target="_blank" rel="noopener noreferrer" className="flex-shrink-0 inline-flex items-center gap-2 border-2 border-[#00F5A0] text-[#00F5A0] px-8 py-4 rounded-xl text-lg font-black hover:bg-[#00F5A0] hover:text-[#0A0A0F] transition-all hover:scale-105 active:scale-95 whitespace-nowrap">
+            Build My Website Free →
+          </a>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">
         <h2 className="text-4xl font-black mb-4">Ready to hire your AI employee?</h2>
