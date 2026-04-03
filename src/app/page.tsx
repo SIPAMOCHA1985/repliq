@@ -6,6 +6,7 @@ import { MessageSquare, Zap, Code2, Check, ArrowRight, Star } from 'lucide-react
 
 const PLANS = [
   {
+    id: 'starter',
     name: 'Starter',
     price: { monthly: 39, annual: 32 },
     desc: '1 bot · 300 chats/month',
@@ -15,6 +16,7 @@ const PLANS = [
     cta: 'Get Started',
   },
   {
+    id: 'pro',
     name: 'Pro',
     price: { monthly: 79, annual: 65 },
     desc: '3 bots · Unlimited chats',
@@ -24,13 +26,14 @@ const PLANS = [
     cta: 'Start Free Trial',
   },
   {
+    id: 'agency',
     name: 'Agency',
     price: { monthly: 199, annual: 165 },
     desc: '10 bots · White label',
     sub: 'For agencies & resellers',
     features: ['10 AI chatbots', 'White label branding', 'Client sub-dashboards', 'Resell to your clients', 'Dedicated support'],
     popular: false,
-    cta: 'Contact Sales',
+    cta: 'Get Started',
   },
 ];
 
@@ -54,9 +57,9 @@ export default function Landing() {
           <span className="font-black text-xl tracking-tight">REPLIQ</span>
         </div>
         <div className="flex items-center gap-4">
-          <Link href="/onboarding" className="text-sm text-[#F0F0F0]/60 hover:text-[#00F5A0] transition-colors">Get Started</Link>
-          <Link href="/onboarding" className="bg-[#00F5A0] text-[#0A0A0F] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#00F5A0]/90 transition-colors">
-            Create My Bot Free →
+          <a href="#pricing" className="text-sm text-[#F0F0F0]/60 hover:text-[#00F5A0] transition-colors">Pricing</a>
+          <Link href="/pricing" className="bg-[#00F5A0] text-[#0A0A0F] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#00F5A0]/90 transition-colors">
+            Create My Bot →
           </Link>
         </div>
       </nav>
@@ -74,7 +77,7 @@ export default function Landing() {
         <p className="text-xl text-[#F0F0F0]/60 max-w-2xl mx-auto mb-10">
           Create a custom AI chatbot for your business in 10 minutes. No code. No tech team. Just answers — 24/7.
         </p>
-        <Link href="/onboarding" className="inline-flex items-center gap-2 bg-[#00F5A0] text-[#0A0A0F] px-8 py-4 rounded-xl text-lg font-black hover:bg-[#00F5A0]/90 transition-all hover:scale-105 active:scale-95">
+        <Link href="/pricing" className="inline-flex items-center gap-2 bg-[#00F5A0] text-[#0A0A0F] px-8 py-4 rounded-xl text-lg font-black hover:bg-[#00F5A0]/90 transition-all hover:scale-105 active:scale-95">
           Create My Bot Free
           <ArrowRight size={20} />
         </Link>
@@ -180,7 +183,7 @@ export default function Landing() {
                   </li>
                 ))}
               </ul>
-              <Link href="/onboarding" className={`w-full block text-center py-3 rounded-xl font-bold text-sm transition-all hover:scale-105 active:scale-95 ${plan.popular ? 'bg-[#00F5A0] text-[#0A0A0F]' : 'border border-white/20 hover:border-[#00F5A0] hover:text-[#00F5A0]'}`}>
+              <Link href={`/pricing?plan=${plan.id}`} className={`w-full block text-center py-3 rounded-xl font-bold text-sm transition-all hover:scale-105 active:scale-95 ${plan.popular ? 'bg-[#00F5A0] text-[#0A0A0F]' : 'border border-white/20 hover:border-[#00F5A0] hover:text-[#00F5A0]'}`}>
                 {plan.cta}
               </Link>
             </div>
@@ -204,7 +207,7 @@ export default function Landing() {
       <section className="max-w-6xl mx-auto px-6 py-20 text-center">
         <h2 className="text-4xl font-black mb-4">Ready to hire your AI employee?</h2>
         <p className="text-[#F0F0F0]/50 mb-8">Zero salary. Zero sick days. Answers every question. 24/7.</p>
-        <Link href="/onboarding" className="inline-flex items-center gap-2 bg-[#00F5A0] text-[#0A0A0F] px-10 py-5 rounded-xl text-xl font-black hover:bg-[#00F5A0]/90 transition-all hover:scale-105 active:scale-95">
+        <Link href="/pricing" className="inline-flex items-center gap-2 bg-[#00F5A0] text-[#0A0A0F] px-10 py-5 rounded-xl text-xl font-black hover:bg-[#00F5A0]/90 transition-all hover:scale-105 active:scale-95">
           Create My Bot Free →
         </Link>
       </section>
@@ -214,7 +217,8 @@ export default function Landing() {
           <div className="w-6 h-6 bg-[#00F5A0] rounded-md flex items-center justify-center font-black text-[#0A0A0F] text-xs">R</div>
           <span className="font-black text-white">REPLIQ</span>
         </div>
-        © 2026 REPLIQ. All rights reserved.
+        <p className="mb-1">© 2026 REPLIQ. All rights reserved.</p>
+        <p><a href="mailto:hello@repliqio.com" className="hover:text-[#00F5A0] transition-colors">hello@repliqio.com</a></p>
       </footer>
     </div>
   );
