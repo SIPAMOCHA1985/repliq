@@ -228,7 +228,7 @@ export default function Landing() {
             <h2 className="text-3xl font-black mb-3">No website yet?<br /><span className="text-[#00F5A0]">We'll build one in 60 seconds.</span></h2>
             <p className="text-[#F0F0F0]/50 max-w-md">Our AI generates a complete, professional landing page for your business — instantly. No designer, no developer, no waiting.</p>
           </div>
-          <a href={process.env.NEXT_PUBLIC_PAGEFORGE_URL || '#'} target="_blank" rel="noopener noreferrer" className="flex-shrink-0 inline-flex items-center gap-2 border-2 border-[#00F5A0] text-[#00F5A0] px-8 py-4 rounded-xl text-lg font-black hover:bg-[#00F5A0] hover:text-[#0A0A0F] transition-all hover:scale-105 active:scale-95 whitespace-nowrap">
+          <a href="https://pageforge-19g8.vercel.app" target="_blank" rel="noopener noreferrer" className="flex-shrink-0 inline-flex items-center gap-2 border-2 border-[#00F5A0] text-[#00F5A0] px-8 py-4 rounded-xl text-lg font-black hover:bg-[#00F5A0] hover:text-[#0A0A0F] transition-all hover:scale-105 active:scale-95 whitespace-nowrap">
             Build My Website Free →
           </a>
         </div>
