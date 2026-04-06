@@ -16,16 +16,35 @@ const DEFAULT: OnboardingData = {
   offer: '', idealCustomer: '', differentiator: '', promotions: '',
   goals: [], topQuestions: ['','','','',''],
   contactMethod: 'Phone', phone: '', email: '', whatsapp: '',
+  greetingMessage: '', fallbackMessage: '', escalationEmail: '', hoursBasedResponses: false,
   botName: '', tone: 'Friendly', widgetColor: '#00F5A0', welcomeMessage: '',
 };
 
 const STEPS = ['Business Info', 'What You Do', 'Bot Behavior', 'Bot Personality'];
+
+function validate(step: number, data: OnboardingData): string | null {
+  if (step === 0) {
+    if (!data.businessName.trim()) return 'Business name is required.';
+    if (!data.industry) return 'Please select your industry.';
+    if (!data.city.trim()) return 'City / Service Area is required.';
+  }
+  if (step === 1) {
+    if (!data.offer.trim()) return 'Please describe what you offer.';
+    if (!data.idealCustomer.trim()) return 'Please describe your ideal customer.';
+    if (!data.differentiator.trim()) return 'Please describe what makes you different.';
+  }
+  if (step === 2) {
+    if (data.goals.length === 0) return 'Please select at least one bot goal.';
+  }
+  return null;
+}
 
 export default function Onboarding() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<OnboardingData>(DEFAULT);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const set = <K extends keyof OnboardingData>(key: K, value: OnboardingData[K]) =>
     setData(prev => ({ ...prev, [key]: value }));
@@ -42,11 +61,19 @@ export default function Onboarding() {
   };
 
   const handleNext = () => {
+    const err = validate(step, data);
+    if (err) { setError(err); return; }
+    setError('');
     if (step === 3) {
       handleSubmit();
     } else {
       setStep(s => s + 1);
     }
+  };
+
+  const handleBack = () => {
+    setError('');
+    setStep(s => s - 1);
   };
 
   const handleSubmit = async () => {
@@ -105,6 +132,12 @@ export default function Onboarding() {
         <div className="max-w-2xl mx-auto bg-[#1A1A2E] rounded-2xl border border-white/10 p-8">
           <h2 className="text-2xl font-black mb-1">{STEPS[step]}</h2>
           <p className="text-white/40 text-sm mb-8">Step {step + 1} of {STEPS.length}</p>
+
+          {error && (
+            <div className="mb-6 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 text-red-400 text-sm">
+              {error}
+            </div>
+          )}
 
           {/* Step 1 */}
           {step === 0 && (
@@ -189,6 +222,35 @@ export default function Onboarding() {
                 <input value={data.email} onChange={e => set('email', e.target.value)} placeholder="Email" className={inp} />
                 <input value={data.whatsapp} onChange={e => set('whatsapp', e.target.value)} placeholder="WhatsApp" className={inp} />
               </div>
+
+              <div className="border-t border-white/5 pt-6 space-y-4">
+                <p className="text-sm text-white/60 font-medium">Advanced Bot Settings</p>
+                <div>
+                  <label className="text-sm text-white/60 mb-1.5 block">Custom Greeting Message <span className="text-white/30">(optional)</span></label>
+                  <input value={data.greetingMessage} onChange={e => set('greetingMessage', e.target.value)} placeholder="e.g. Welcome! How can I help you today?" className={inp} />
+                </div>
+                <div>
+                  <label className="text-sm text-white/60 mb-1.5 block">Fallback Message <span className="text-white/30">(optional — shown when bot can't answer)</span></label>
+                  <input value={data.fallbackMessage} onChange={e => set('fallbackMessage', e.target.value)} placeholder="e.g. I'm not sure about that. Let me connect you with our team." className={inp} />
+                </div>
+                <div>
+                  <label className="text-sm text-white/60 mb-1.5 block">Escalation Email <span className="text-white/30">(optional — notified on unresolved chats)</span></label>
+                  <input type="email" value={data.escalationEmail} onChange={e => set('escalationEmail', e.target.value)} placeholder="e.g. owner@mybusiness.com" className={inp} />
+                </div>
+                <div className="flex items-center justify-between py-3 px-4 bg-white/5 rounded-lg border border-white/10">
+                  <div>
+                    <p className="text-sm font-medium">Hours-based responses</p>
+                    <p className="text-xs text-white/40 mt-0.5">Bot mentions if you're open or closed based on your hours</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => set('hoursBasedResponses', !data.hoursBasedResponses)}
+                    className={`relative w-10 h-5 rounded-full transition-colors flex-shrink-0 ${data.hoursBasedResponses ? 'bg-[#00F5A0]' : 'bg-white/20'}`}
+                  >
+                    <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${data.hoursBasedResponses ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
@@ -234,7 +296,7 @@ export default function Onboarding() {
 
           {/* Nav buttons */}
           <div className="flex justify-between mt-10">
-            <button onClick={() => setStep(s => s - 1)} disabled={step === 0} className="flex items-center gap-2 px-5 py-3 rounded-xl border border-white/10 text-white/40 hover:text-white hover:border-white/30 disabled:opacity-0 transition-all">
+            <button onClick={handleBack} disabled={step === 0} className="flex items-center gap-2 px-5 py-3 rounded-xl border border-white/10 text-white/40 hover:text-white hover:border-white/30 disabled:opacity-0 transition-all">
               <ArrowLeft size={16} /> Back
             </button>
             <button onClick={handleNext} disabled={loading} className="flex items-center gap-2 bg-[#00F5A0] text-[#0A0A0F] px-6 py-3 rounded-xl font-bold hover:bg-[#00F5A0]/90 disabled:opacity-70 transition-all">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { BotConfig, Conversation } from '@/types';
 import { Monitor, Smartphone, Copy, Check, Code2, MessageSquare, Settings, ChevronDown } from 'lucide-react';
@@ -19,6 +19,7 @@ const PLATFORMS = [
 
 function DashboardContent() {
   const params = useSearchParams();
+  const router = useRouter();
   const botId = params.get('botId');
   const [bot, setBot] = useState<BotConfig | null>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -31,9 +32,14 @@ function DashboardContent() {
   const embedCode = `<script src="${appUrl}/widget.js?id=${botId}"></script>`;
 
   useEffect(() => {
-    if (!botId) return;
+    async function checkAuth() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+      if (!botId) { setLoading(false); return; }
 
-    async function load() {
       const { data } = await supabase.from('bots').select('*').eq('id', botId).single();
       if (data) setBot(data as BotConfig);
 
@@ -47,8 +53,8 @@ function DashboardContent() {
       setLoading(false);
     }
 
-    load();
-  }, [botId]);
+    checkAuth();
+  }, [botId, router]);
 
   const copyEmbed = async () => {
     await navigator.clipboard.writeText(embedCode);

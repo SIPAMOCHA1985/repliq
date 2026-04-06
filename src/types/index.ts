@@ -28,6 +28,11 @@ export interface OnboardingData {
   phone?: string;
   email?: string;
   whatsapp?: string;
+  // Step 3 — extra
+  greetingMessage?: string;
+  fallbackMessage?: string;
+  escalationEmail?: string;
+  hoursBasedResponses?: boolean;
   // Step 4
   botName: string;
   tone: BotTone;
