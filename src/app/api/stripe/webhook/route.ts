@@ -51,6 +51,18 @@ export async function POST(req: NextRequest) {
           .eq('stripe_subscription_id', sub.id);
         break;
       }
+      case 'invoice.payment_failed': {
+        const invoice = event.data.object as Stripe.Invoice;
+        console.error('Payment failed for customer:', invoice.customer, 'invoice:', invoice.id);
+        // Mark subscription as past_due
+        if (invoice.subscription) {
+          await supabaseAdmin
+            .from('subscriptions')
+            .update({ status: 'past_due' })
+            .eq('stripe_subscription_id', invoice.subscription as string);
+        }
+        break;
+      }
     }
   } catch (err) {
     console.error('Webhook handler error:', err);
