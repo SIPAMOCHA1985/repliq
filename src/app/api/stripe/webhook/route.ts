@@ -52,7 +52,8 @@ export async function POST(req: NextRequest) {
         break;
       }
       case 'invoice.payment_failed': {
-        const invoice = event.data.object as Stripe.Invoice;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const invoice = event.data.object as any;
         console.error('Payment failed for customer:', invoice.customer, 'invoice:', invoice.id);
         // Mark subscription as past_due
         if (invoice.subscription) {
