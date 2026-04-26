@@ -339,7 +339,10 @@ export default function Landing() {
           <Link href="/terms-of-service" className="hover:text-[#00F5A0] transition-colors">Terms of Service</Link>
           <a href="mailto:support@repliqio.com" className="hover:text-[#00F5A0] transition-colors">Contact</a>
         </div>
-        <p className="text-xs">© 2026 RepliQio / SkillBridgeAI LLC. All rights reserved.</p>
+        <p className="text-xs">© {new Date().getFullYear()} RepliQio. All rights reserved.</p>
+        <p className="text-xs mt-1 text-[#F0F0F0]/20">
+          A <a href="https://www.jcsolutionsenterprise.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#00F5A0] transition-colors">JC Solutions Enterprise LLC</a> Product · Orlando, Florida
+        </p>
       </footer>
     </div>
   );
